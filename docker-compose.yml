@@ -1,0 +1,32 @@
+services:
+  storage:
+    image: redis
+    volumes:
+      - ./data:/data
+  counter:
+    image: silverkir/counter:01.0.0
+    environment:
+      - PORT=3002
+      - REDIS_URL=redis://storage
+    ports:
+      - 3002:3002
+    depends_on:
+      - storage
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+  library:
+    image: silverkir/library:03.1.1
+    environment:
+      - PORT=3003
+      - COUNTER_URL=http://counter:3002
+      - DB_URL=mongodb://mongo:27017/library
+    ports:
+      - 80:3003
+    links: 
+      - mongo      
+    depends_on:
+      - counter
+      
