@@ -1,11 +1,11 @@
-const Book = require("../../model/Book.js");
+const Book = require("../../src/model/Book.js");
 const express = require("express");
 const router = express.Router();
-const bookFile = require("../../middleware/BookFile.js");
-const BookRepository = require("../../repository/BookRepository.js");
-const deleteBookFile = require("../../controller/bookController.js");
+const bookFile = require("../../src/middleware/BookFile.js");
+const BookRepository = require("../../src/repository/BookRepository.js");
+const deleteBookFile = require("../../src/controller/bookController.js");
 const path = require("path");
-const container = require("../../service/container.js");
+const container = require("../../src/service/container.js");
 
 const store = container.get(BookRepository);
 

@@ -18,15 +18,18 @@ services:
     ports:
       - 27017:27017
   library:
-    image: silverkir/library:03.1.1
+    image: node:20.13
+    working_dir: /app
+    volumes:
+      - ./:/app
     environment:
       - PORT=3003
       - COUNTER_URL=http://counter:3002
       - DB_URL=mongodb://mongo:27017/library
     ports:
       - 80:3003
-    links: 
-      - mongo      
+    links:
+      - mongo
     depends_on:
       - counter
-      
+    command: npm run dev

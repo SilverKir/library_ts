@@ -1,7 +1,7 @@
-const Book = require("../../model/Book.js");
-const express = require("express");
+import { Book } from "../../model/Book";
+import express from "express";
 const router = express.Router();
-const bookFile = require("../../middleware/BookFile.js");
+import bookFile from "../../middleware/BookFile";
 const BookRepository = require("../../repository/BookRepository.js");
 const deleteBookFile = require("../../controller/bookController.js");
 const counter = require("../../controller/counter.js");
@@ -109,4 +109,4 @@ router.post("/delete/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
