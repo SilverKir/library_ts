@@ -4,7 +4,6 @@ ARG NODE_ENV=production
 COPY ./package*.json ./
 RUN npm install
 COPY ./public/books public/books/
-COPY ./index.js ./
-COPY ./src src/
-
+COPY /src/views  /app/src/views
+ADD build /app/src
 CMD ["npm", "start"]
