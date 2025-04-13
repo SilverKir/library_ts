@@ -2,10 +2,10 @@ import { Book } from "../../model/Book";
 import express from "express";
 const router = express.Router();
 import bookFile from "../../middleware/BookFile";
-const BookRepository = require("../../repository/BookRepository.js");
-const deleteBookFile = require("../../controller/bookController.js");
-const counter = require("../../controller/counter.js");
-const container = require("../../service/container.js");
+import BookRepository from "../../repository/BookRepository";
+import { deleteBookFile } from "../../controller/bookController";
+import { getCount, setCounter } from "../../controller/counter";
+import { container } from "../../service/container";
 
 const store = container.get(BookRepository);
 
@@ -35,7 +35,7 @@ router.post("/create", bookFile.single("bookFile"), async (req, res) => {
     await store.addBook(book);
     res.redirect("/");
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Internal Server Error" + error);
   }
 });
 
@@ -44,15 +44,15 @@ router.get("/", async (req, res) => {
     const books = await store.getAll();
     res.render("../src/views/book/index", { title: "Books", books: books });
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Internal Server Error" + error);
   }
 });
 
 router.get("/:id", async (req, res) => {
   const book = await store.getBookById(req.params.id);
   if (book) {
-    counter.setCounter(req.params.id);
-    const count = await counter.getCount(req.params.id);
+    setCounter(req.params.id);
+    const count = await getCount(req.params.id);
     res.render("../src/views/book/view", {
       title: "Book | view",
       book: book,
@@ -88,7 +88,7 @@ router.post("/update/:id", bookFile.single("bookFile"), async (req, res) => {
     book.fileName = fileName;
 
     if (req.file) {
-      deleteBookFile.deleteBookFile(book);
+      deleteBookFile(book);
       book.fileBook = req.file.filename;
     }
     await store.updateBook(req.params.id, book);
@@ -101,7 +101,7 @@ router.post("/update/:id", bookFile.single("bookFile"), async (req, res) => {
 router.post("/delete/:id", async (req, res) => {
   const book = await store.getBookById(req.params.id);
   if (book) {
-    deleteBookFile.deleteBookFile(book);
+    deleteBookFile(book);
     await store.deleteBook(req.params.id);
     res.redirect("/url/books");
   } else {

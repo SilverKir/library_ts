@@ -1,6 +1,6 @@
-const express = require("express");
-const bookRouter = require("./BookAPIRouter.js");
-const userRouter = require("./UserAPIRouter.js");
+import express from "express";
+import bookRouter from "./BookAPIRouter";
+import userRouter from "./UserAPIRouter";
 
 const router = express.Router();
 

@@ -1,14 +1,14 @@
 import { v4 as uuid } from "uuid";
 
 export class Book {
-  private id: string;
-  private title: string;
-  private description: string;
-  private authors: string;
-  private favorite: string;
-  private fileCover: string;
-  private fileName: string;
-  private fileBook: string;
+  id: string;
+  title: string;
+  description: string;
+  authors: string;
+  favorite: string;
+  fileCover: string;
+  fileName: string;
+  fileBook: string;
 
   constructor(
     title = "",
